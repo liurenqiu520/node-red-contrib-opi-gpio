@@ -1,21 +1,19 @@
 {
-  "name": "node-red-contrib-opi-gpio",
-  "version": "0.0.6",
-  "description": "Orange Pi GPIO. Digital input/output for most Pi computers",
+  "name": "@liball/node-red-contrib-opi-z2w-gpio",
+  "version": "0.1.0",
+  "description": "Orange Pi GPIO. Digital input/output for Zero 2W",
   "author": {
-    "name":"Gottfried Prandstetter",
-    "email": "g.prand@gmail.com"
+    "name": "liball",
+    "email": "liurenqiu520@gmail.com"
   },
-  "license": "MIT", 
+  "license": "MIT",
   "dependencies": {
     "onoff": "6.*"
   },
   "keywords": [
     "node-red",
     "Orange Pi",
-    "Banana Pi",
-    "Nano Pi",
-    "Raspberry Pi",
+    "Zero 2W",
     "GPIO",
     "Armbian"
   ],
@@ -24,5 +22,8 @@
       "Orange Pi": "opi-gpio-out.js",
       "In": "opi-gpio-in.js"
     }
+  },
+  "devDependencies": {
+    "node-red": "^4.0.9"
   }
 }
