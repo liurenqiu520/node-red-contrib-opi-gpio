@@ -1,7 +1,7 @@
 {
-  "name": "@liball/node-red-contrib-opi-z2w-gpio",
+  "name": "@liball/node-red-contrib-opi-gpio",
   "version": "0.1.0",
-  "description": "Orange Pi GPIO. Digital input/output for Zero 2W",
+  "description": "Orange Pi GPIO. Digital input/output for Orange Pi",
   "author": {
     "name": "liball",
     "email": "liurenqiu520@gmail.com"
