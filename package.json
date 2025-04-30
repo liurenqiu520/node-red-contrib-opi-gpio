@@ -1,6 +1,6 @@
 {
   "name": "@liball/node-red-contrib-opi-gpio",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Orange Pi GPIO. Digital input/output for Orange Pi",
   "author": {
     "name": "liball",
