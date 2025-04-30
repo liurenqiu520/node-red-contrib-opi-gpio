@@ -6,118 +6,217 @@
 
     <div class="form-row">
         <label for="node-input-select"><i class="fa fa-microchip"></i> 设备型号</label>
-        <select id="node-input-select" style="width: 250px;">
+        <select id="node-input-select" style="width: 70%;">
             <option value="" disabled>-- 选择设备型号 --</option>
             <option value="opz2w">Orange Pi Zero 2W</option>
         </select>
     </div>
 
-    <div id="opz2w-pin-options" style="display: none;">
-        <div class="form-row">
-            <label for="node-input-pin-opz2w"><i class="fa fa-tag"></i> GPIO 引脚</label>
-            <input type="hidden" id="node-input-pin">
-            <select id="node-input-pin-opz2w" style="width: 250px;">
-                <option value='' disabled selected style='display:none;'>选择引脚</option>
-                <option value="264">PI8 (264)</option>
-                <option value="263">PI7 (263)</option>
-                <option value="269">PI13 (269)</option>
-                <option value="224">PH0 (224)</option>
-                <option value="225">PH1 (225)</option>
-                <option value="257">PI1 (257)</option>
-                <option value="226">PH2 (226)</option>
-                <option value="227">PH3 (227)</option>
-                <option value="261">PI5 (261)</option>
-                <option value="270">PI14 (270)</option>
-                <option value="228">PH4 (228)</option>
-                <option value="231">PH7 (231)</option>
-                <option value="232">PH8 (232)</option>
-                <option value="262">PI6 (262)</option>
-                <option value="230">PH6 (230)</option>
-                <option value="229">PH5 (229)</option>
-                <option value="233">PH9 (233)</option>
-                <option value="266">PI10 (266)</option>
-                <option value="265">PI9 (265)</option>
-                <option value="256">PI0 (256)</option>
-                <option value="271">PI15 (271)</option>
-                <option value="267">PI11 (267)</option>
-                <option value="268">PI12 (268)</option>
-                <option value="258">PI2 (258)</option>
-                <option value="76">PC12 (76)</option>
-                <option value="272">PI16 (272)</option>
-                <option value="260">PI4 (260)</option>
-                <option value="259">PI3 (259)</option>
-            </select>
-        </div>
+    <div class="form-row" id="device-pinout-image-container" style="text-align: center; display: none; margin-top: 10px; border: 1px dashed #ccc; padding: 5px;">
+        <label style="display: block; margin-bottom: 5px;">引脚布局图:</label>
+        <img id="device-pinout-image" src="" alt="设备引脚图" style="max-width: 95%; height: auto;"/>
+    </div>
+
+    <div id="opz2w-pin-options" style="display: none;"> <div class="form-row">
+        <label for="node-input-pin-opz2w"><i class="fa fa-tag"></i> GPIO 引脚</label>
+        <select id="node-input-pin-opz2w" style="width: 70%;">
+            <option value='' disabled selected style='display:none;'>选择引脚 或 自定义</option>
+            <option value="264">PI8 (264)</option>
+            <option value="263">PI7 (263)</option>
+            <option value="269">PI13 (269)</option>
+            <option value="224">PH0 (224)</option>
+            <option value="225">PH1 (225)</option>
+            <option value="257">PI1 (257)</option>
+            <option value="226">PH2 (226)</option>
+            <option value="227">PH3 (227)</option>
+            <option value="261">PI5 (261)</option>
+            <option value="270">PI14 (270)</option>
+            <option value="228">PH4 (228)</option>
+            <option value="231">PH7 (231)</option>
+            <option value="232">PH8 (232)</option>
+            <option value="262">PI6 (262)</option>
+            <option value="230">PH6 (230)</option>
+            <option value="229">PH5 (229)</option>
+            <option value="233">PH9 (233)</option>
+            <option value="266">PI10 (266)</option>
+            <option value="265">PI9 (265)</option>
+            <option value="256">PI0 (256)</option>
+            <option value="271">PI15 (271)</option>
+            <option value="267">PI11 (267)</option>
+            <option value="268">PI12 (268)</option>
+            <option value="258">PI2 (258)</option>
+            <option value="76">PC12 (76)</option>
+            <option value="272">PI16 (272)</option>
+            <option value="260">PI4 (260)</option>
+            <option value="259">PI3 (259)</option>
+            <option value="custom">-- 自定义/环境变量 --</option>
+        </select>
+    </div>
+
+        <div class="form-row" id="custom-pin-input-row" style="display: none;">
+            <label for="node-input-pin-custom"><i class="fa fa-pencil"></i> 自定义值</label>
+            <input type="text" id="node-input-pin-custom" style="width: 70%;">
+            <input type="hidden" id="node-input-pinType-custom"> </div>
     </div>
     <div class="form-row" id="node-set-tick">
         <label>&nbsp;</label>
         <input type="checkbox" id="node-input-set" style="display: inline-block; width: auto; vertical-align: top;">
         <label for="node-input-set" style="width: 70%;">初始化引脚状态?</label>
     </div>
-    <div class="form-row" id="node-set-state">
+
+    <div class="form-row" id="node-set-state" style="display: none;">
         <label for="node-input-level"><i class="fa fa-level-down"></i> 初始电平</label>
-        <select id="node-input-level" style="width: 250px;">
+        <select id="node-input-level" style="width: 70%;">
             <option value="0"> 低电平 (0)</option>
             <option value="1"> 高电平 (1)</option>
         </select>
     </div>
-
 </script>
 
 <script type="text/html" data-help-name="opi_out">
-    <p>GPIO <b>输出</b> 节点，用于兼容多种设备（当前主要支持 <b>Orange Pi Zero 2W</b>）。</p> <p>
-        请先从“设备型号”下拉列表中选择您的设备。根据所选设备，下方会显示可用的 GPIO 引脚列表。</p> <p>选择要控制的 GPIO
-        引脚。</p>
-    <p>列出的所有 GPIO 引脚都可用，无论其复用功能如何。用户有责任确保不干扰其他引脚功能（例如在别处配置的 I2C, SPI,
-        UART）。</p>
+    <p>GPIO <b>输出</b> 节点，用于兼容多种设备（当前主要支持 <b>Orange Pi Zero 2W</b>）。</p>
+    <p>请先从“设备型号”下拉列表中选择您的设备。根据所选设备，下方会显示引脚布局图和可用的 GPIO 引脚列表。</p>
+    <p>选择要控制的 GPIO 引脚，或选择“-- 自定义/环境变量 --”来手动输入引脚号、环境变量名 (例如 <code>MY_PIN_VAR</code>) 或其他支持的类型。</p>
+    <p>如果使用环境变量，请在子流程属性或 Node-RED 运行环境中定义它。</p>
+    <p>用户有责任确保所选或输入的引脚号有效且不会干扰其他系统功能。</p>
     <p>输入的 <code>msg.payload</code> 应设置为 <code>1</code> (高电平) 或 <code>0</code> (低电平) 来控制引脚状态。</p>
-    <p><b>初始状态:</b> 您可以选择在部署或启动时初始化引脚的状态。勾选 "初始化引脚状态?" 并选择所需的初始电平 (高或低)。
-    </p>
+    <p><b>初始状态:</b> 您可以选择在部署或启动时初始化引脚的状态。勾选 "初始化引脚状态?" 并选择所需的初始电平 (高或低)。</p>
 </script>
 
 <script type="text/javascript">
     RED.nodes.registerType('opi_out', {
-        category: 'Orange Pi',
-        color: '#FFCC66',
+        category: 'Orange Pi', // Or your desired category
+        color: '#FFCC66',      // Orange-ish color
         defaults: {
             name: {value: ""},
-            select: {value: "opz2w"}, // 重新添加 select, 默认 opz2w
-            pin: {value: "", required: true},
-            set: {value: false},
-            level: {value: "0"}
+            select: {value: "opz2w"},          // Default device
+            pin: {value: "", required: true}, // Stores final pin value (number or string/var name)
+            pinSource: {value: "list"},       // Source: 'list' or 'custom'
+            pinType: {value: "num"},          // Type when pinSource is 'custom' ('num', 'str', 'env'...)
+            set: {value: false},              // Initialize pin state?
+            level: {value: "0"}               // Initial pin level (0 or 1)
         },
         inputs: 1,
         outputs: 0,
-        icon: "out.png",
-        paletteLabel: "GPIO OUT", // 修改标签
+        icon: "out.png", // Provide an icon file or use a Font Awesome icon e.g., "fa-lightbulb-o"
+        paletteLabel: "GPIO OUT",
         label: function () {
-            return this.name || (this.pin ? `${this.select || '设备'} GPIO ${this.pin}` : "GPIO OUT"); // 更新标签显示
+            // Generate a dynamic label for the node
+            let pinDisplay = this.pin;
+            if (this.pinSource === 'custom') {
+                switch (this.pinType) {
+                    case 'env': pinDisplay = '${' + this.pin + '}'; break;
+                    case 'flow': pinDisplay = '#' + this.pin; break; // Assuming pin stores full path for flow/global
+                    case 'global': pinDisplay = '#' + this.pin; break;
+                    // Add other types if needed
+                }
+            }
+            const deviceLabel = this.select === 'opz2w' ? 'OPIZ2W' : (this.select || '设备');
+            return this.name || (pinDisplay ? `${deviceLabel} GPIO ${pinDisplay}` : "GPIO OUT");
         },
         oneditprepare: function () {
-            // --- 设备选择变化时，更新引脚UI ---
-            const updatePinSelectionUI = () => {
-                const selectedDevice = $("#node-input-select").val();
-                $("#opz2w-pin-options").hide();
+            const node = this; // Reference to the node object for callbacks
+
+            // --- IMPORTANT: Set your node's registered name here for image paths ---
+            const resourcePath = "resources/@liball/node-red-contrib-opi-gpio";
+            // ---------------------------------------------------------------------
+
+            // Get jQuery elements
+            const $deviceSelect = $("#node-input-select");
+            const $imageContainer = $("#device-pinout-image-container");
+            const $imageElement = $("#device-pinout-image");
+            const $opz2wOptions = $("#opz2w-pin-options"); // Container for OPiZ2W specific inputs
+            const $pinSelect = $("#node-input-pin-opz2w");   // The dropdown list for pins
+            const $customPinRow = $("#custom-pin-input-row"); // The row for custom input
+            const $customPinInput = $("#node-input-pin-custom"); // The TypedInput element
+            const $customPinType = $("#node-input-pinType-custom"); // Hidden input for custom type
+
+            // Function to update UI based on selected device
+            const updateUIForDevice = () => {
+                const selectedDevice = $deviceSelect.val();
+
+                // Hide all device-specific options and image first
+                $opz2wOptions.hide();
+                // Add similar lines for other device option containers if you add them
+                $imageContainer.hide();
+                $imageElement.attr("src", ""); // Clear image
+
+                // --- Handle Orange Pi Zero 2W ---
                 if (selectedDevice === 'opz2w') {
-                    $("#opz2w-pin-options").show();
+                    // 1. Show OPiZ2W options container
+                    $opz2wOptions.show();
+
+                    // 2. Show Pinout Image
+                    const imageUrl = `${resourcePath}/gpio-zero2w.png`; // Assumes image is in node dir
+                    $imageElement.attr("src", imageUrl);
+                    $imageContainer.show();
+
+                    // 3. Handle Pin Input Mode (List vs Custom) based on saved state
+                    if (node.pinSource === 'custom') {
+                        $pinSelect.val('custom'); // Select "custom" in dropdown
+                        $customPinRow.show();    // Show the custom input row
+
+                        // Initialize TypedInput only once
+                        if (!$customPinInput.data('typedInput')) {
+                            $customPinInput.typedInput({
+                                default: node.pinType || 'num',
+                                types: ['num', 'str', 'env', 'flow', 'global'], // Add/remove types as needed
+                                typeField: $customPinType // Link to the hidden type input
+                            });
+                        }
+                        // Set initial value and type for TypedInput
+                        $customPinInput.typedInput('value', node.pin);
+                        $customPinInput.typedInput('type', node.pinType || 'num');
+                    } else {
+                        // Mode is 'list'
+                        $pinSelect.val(node.pin); // Select the saved pin in the dropdown
+                        $customPinRow.hide();    // Hide the custom input row
+                    }
                 }
-                // else if ... for future devices
+                    // --- Handle Other Devices (Example Structure) ---
+                    // else if (selectedDevice === 'other_device') {
+                    //     // Show options for other_device
+                    //     // Show image for other_device
+                    //     // Handle pin input for other_device
+                    // }
+                // --- Default case (no device selected or unknown) ---
+                else {
+                    // All options and image remain hidden
+                }
             };
 
-            $("#node-input-select").change(() => {
-                updatePinSelectionUI();
+            // --- Event Handlers ---
+
+            // 1. Device selection changes
+            $deviceSelect.change(() => {
+                // When device changes, reset pin selection logic potentially needed
+                // For now, just update the whole UI
+                updateUIForDevice();
             });
 
-            // --- (保持不变) Orange Pi Zero 2W 引脚选择逻辑 ---
-            $("#node-input-pin-opz2w").change(function () {
-                const selectedOption = $(this).find('option:selected');
-                const gpioNumber = selectedOption.val();
-                const pinText = selectedOption.text();
-                $("#node-input-pin").val(gpioNumber);
-                $("#node-input-name").val(pinText);
+            // 2. Pin dropdown selection changes
+            $pinSelect.change(function () {
+                const selectedValue = $(this).val();
+                if (selectedValue === 'custom') {
+                    // Show custom input row
+                    $customPinRow.show();
+                    // Initialize TypedInput if it hasn't been already
+                    if (!$customPinInput.data('typedInput')) {
+                        $customPinInput.typedInput({
+                            default: 'num', // Default to number when switching to custom
+                            types: ['num', 'str', 'env', 'flow', 'global'],
+                            typeField: $customPinType
+                        });
+                        // Optionally clear the custom input when switched to
+                        // $customPinInput.typedInput('value', '');
+                    }
+                } else {
+                    // Hide custom input row if a specific pin is selected
+                    $customPinRow.hide();
+                }
             });
 
-            // --- (保持不变) 初始状态设置逻辑 ---
+            // 3. Initial state checkbox changes
             const setstate = function () {
                 if ($('#node-input-set').is(":checked")) {
                     $("#node-set-state").show();
@@ -125,31 +224,44 @@
                     $("#node-set-state").hide();
                 }
             };
-            $("#node-input-set").change(function () {
-                setstate();
-            });
+            $("#node-input-set").change(setstate); // Attach change handler
 
+            // --- Initialization on Dialog Open ---
+            // Set initial values from node properties
+            $deviceSelect.val(node.select || 'opz2w'); // Set device dropdown
+            $("#node-input-set").prop('checked', node.set); // Set init state checkbox
+            $("#node-input-level").val(node.level || "0"); // Set init state level dropdown
 
-            // --- 初始化 ---
-            if (this.select) {
-                $('#node-input-select').val(this.select);
-            } else {
-                $('#node-input-select').val('');
-            }
-            updatePinSelectionUI(); // 初始化引脚UI可见性
+            // Update the entire UI based on the loaded device and pin source
+            updateUIForDevice();
 
-            if (this.pin && $("#node-input-select").val() === 'opz2w') {
-                $('#node-input-pin-opz2w').val(this.pin);
-            }
-            // 初始化初始状态设置的可见性
+            // Ensure the initial state level dropdown visibility is correct
             setstate();
+
         },
         oneditsave: function () {
-            this.select = $("#node-input-select").val();
-            if ($("#opz2w-pin-options").is(":visible")) {
-                this.pin = $('#node-input-pin-opz2w').val();
-                $("#node-input-pin").val(this.pin);
+            const node = this;
+            // Save device selection
+            node.select = $("#node-input-select").val();
+
+            // Determine pin source and save pin/pinType accordingly
+            const pinSelectionMode = $("#node-input-pin-opz2w").val(); // Check the dropdown
+
+            if (pinSelectionMode === 'custom') {
+                node.pinSource = 'custom';
+                // Get value and type from the TypedInput
+                node.pin = $("#node-input-pin-custom").typedInput('value');
+                node.pinType = $("#node-input-pin-custom").typedInput('type');
+            } else {
+                node.pinSource = 'list';
+                node.pin = pinSelectionMode; // Get value directly from dropdown
+                node.pinType = 'num'; // Pins from list are always numbers
             }
+            // Note: 'set' and 'level' defaults are automatically saved by Node-RED
+            // because their input IDs match 'node-input-set' and 'node-input-level'
         }
+        // oneditcancel: function() { ... } // Optional
+        // oneditdelete: function() { ... } // Optional
+        // oneditresize: function() { ... } // Optional
     });
 </script>

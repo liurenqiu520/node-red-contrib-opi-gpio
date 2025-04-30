@@ -1,53 +1,62 @@
 <script type="text/html" data-template-name="opi_in">
     <div class="form-row">
         <label for="node-input-name"><i class="icon-tag"></i> 名称</label>
-        <input type="text" id="node-input-name" placeholder="例如：PI8 状态">
+        <input type="text" id="node-input-name" placeholder="例如：读取按钮状态">
     </div>
 
     <div class="form-row">
         <label for="node-input-select"><i class="fa fa-microchip"></i> 设备型号</label>
-        <select id="node-input-select" style="width: 250px;">
+        <select id="node-input-select" style="width: 70%;">
             <option value="" disabled>-- 选择设备型号 --</option>
             <option value="opz2w">Orange Pi Zero 2W</option>
         </select>
     </div>
 
-    <div id="opz2w-pin-options" style="display: none;">
-        <div class="form-row">
-            <label for="node-input-pin-opz2w"><i class="fa fa-tag"></i> GPIO 引脚</label>
-            <input type="hidden" id="node-input-pin">
-            <select id="node-input-pin-opz2w" style="width: 250px;">
-                <option value='' disabled selected style='display:none;'>选择引脚</option>
-                <option value="264">PI8 (264)</option>
-                <option value="263">PI7 (263)</option>
-                <option value="269">PI13 (269)</option>
-                <option value="224">PH0 (224)</option>
-                <option value="225">PH1 (225)</option>
-                <option value="257">PI1 (257)</option>
-                <option value="226">PH2 (226)</option>
-                <option value="227">PH3 (227)</option>
-                <option value="261">PI5 (261)</option>
-                <option value="270">PI14 (270)</option>
-                <option value="228">PH4 (228)</option>
-                <option value="231">PH7 (231)</option>
-                <option value="232">PH8 (232)</option>
-                <option value="262">PI6 (262)</option>
-                <option value="230">PH6 (230)</option>
-                <option value="229">PH5 (229)</option>
-                <option value="233">PH9 (233)</option>
-                <option value="266">PI10 (266)</option>
-                <option value="265">PI9 (265)</option>
-                <option value="256">PI0 (256)</option>
-                <option value="271">PI15 (271)</option>
-                <option value="267">PI11 (267)</option>
-                <option value="268">PI12 (268)</option>
-                <option value="258">PI2 (258)</option>
-                <option value="76">PC12 (76)</option>
-                <option value="272">PI16 (272)</option>
-                <option value="260">PI4 (260)</option>
-                <option value="259">PI3 (259)</option>
-            </select>
-        </div>
+    <div class="form-row" id="device-pinout-image-container" style="text-align: center; display: none; margin-top: 10px; border: 1px dashed #ccc; padding: 5px;">
+        <label style="display: block; margin-bottom: 5px;">引脚布局图:</label>
+        <img id="device-pinout-image" src="" alt="设备引脚图" style="max-width: 95%; height: auto;"/>
+    </div>
+
+    <div id="opz2w-pin-options" style="display: none;"> <div class="form-row">
+        <label for="node-input-pin-opz2w"><i class="fa fa-tag"></i> GPIO 引脚</label>
+        <select id="node-input-pin-opz2w" style="width: 70%;">
+            <option value='' disabled selected style='display:none;'>选择引脚 或 自定义</option>
+            <option value="264">PI8 (264)</option>
+            <option value="263">PI7 (263)</option>
+            <option value="269">PI13 (269)</option>
+            <option value="224">PH0 (224)</option>
+            <option value="225">PH1 (225)</option>
+            <option value="257">PI1 (257)</option>
+            <option value="226">PH2 (226)</option>
+            <option value="227">PH3 (227)</option>
+            <option value="261">PI5 (261)</option>
+            <option value="270">PI14 (270)</option>
+            <option value="228">PH4 (228)</option>
+            <option value="231">PH7 (231)</option>
+            <option value="232">PH8 (232)</option>
+            <option value="262">PI6 (262)</option>
+            <option value="230">PH6 (230)</option>
+            <option value="229">PH5 (229)</option>
+            <option value="233">PH9 (233)</option>
+            <option value="266">PI10 (266)</option>
+            <option value="265">PI9 (265)</option>
+            <option value="256">PI0 (256)</option>
+            <option value="271">PI15 (271)</option>
+            <option value="267">PI11 (267)</option>
+            <option value="268">PI12 (268)</option>
+            <option value="258">PI2 (258)</option>
+            <option value="76">PC12 (76)</option>
+            <option value="272">PI16 (272)</option>
+            <option value="260">PI4 (260)</option>
+            <option value="259">PI3 (259)</option>
+            <option value="custom">-- 自定义/环境变量 --</option>
+        </select>
+    </div>
+
+        <div class="form-row" id="custom-pin-input-row" style="display: none;">
+            <label for="node-input-pin-custom"><i class="fa fa-pencil"></i> 自定义值</label>
+            <input type="text" id="node-input-pin-custom" style="width: 70%;">
+            <input type="hidden" id="node-input-pinType-custom"> </div>
     </div>
     <div class="form-row" id="node-set-tick">
         <label>&nbsp;</label>
@@ -55,138 +64,210 @@
                style="display: inline-block; width: auto; vertical-align: top;">
         <label for="node-input-enableInterrupt" style="width: 70%;">启用中断?</label>
     </div>
-    <div class="form-row" id="node-set-edge">
-        <label for="node-input-edge"><i class="icon-tag"></i>触发边沿</label>
-        <select id="node-input-edge" style="width: 250px;">
-            <option value="rising">上升沿</option>
-            <option value="falling">下降沿</option>
-            <option value="both">双边沿</option>
-        </select>
-    </div>
-    <div class="form-row" id="node-set-debounce">
-        <label for="node-input-debounce"><i class="icon-tag"></i>去抖延迟 (毫秒)</label>
-        <input type="text"
-               id="node-input-debounce"
-               placeholder="例如：50">
-    </div>
-    <div class="form-tips" id="node-tip-debounce">
-        去抖会在中断后增加一段死区时间，在此期间忽略新的中断。
-        <br><br>
-        <h5>!!! 警告 !!!</h5>
-        并非所有引脚都支持中断！如果所选引脚不支持中断，请检查 Node-RED 控制台/日志输出中的警告。
+
+    <div class="form-row" id="node-set-edge" style="display: none;">
+        <label for="node-input-edge"><i class="fa fa-bullseye"></i> 触发边沿</label> <select id="node-input-edge" style="width: 70%;">
+        <option value="rising">上升沿</option>
+        <option value="falling">下降沿</option>
+        <option value="both">双边沿</option>
+    </select>
     </div>
 
+    <div class="form-row" id="node-set-debounce" style="display: none;">
+        <label for="node-input-debounce"><i class="fa fa-clock-o"></i> 去抖延迟 (ms)</label> <input type="text" id="node-input-debounce" placeholder="例如：50" style="width: 70%;">
+    </div>
+
+    <div class="form-tips" id="node-tip-debounce" style="display: none;">
+        去抖会在中断后增加一段死区时间，在此期间忽略新的中断 (0 = 禁用去抖)。
+        <br><br>
+        <b>警告:</b> 并非所有引脚都支持硬件中断！请查阅设备文档。
+    </div>
 </script>
 
 <script type="text/html" data-help-name="opi_in">
-    <p>GPIO <b>输入</b> 节点，用于兼容多种设备（当前主要支持 <b>Orange Pi Zero 2W</b>）。</p> <p>
-        请先从“设备型号”下拉列表中选择您的设备。根据所选设备，下方会显示可用的 GPIO 引脚列表。</p> <p>选择所需的 GPIO
-        引脚。</p>
-    <p>列出的所有 GPIO 引脚均可用，无论其复用功能如何。用户有责任确保不干扰其他引脚功能（例如在别处配置的 I2C, SPI,
-        UART）。</p>
-    <p>您可以通过向节点发送任何消息来轮询引脚状态，也可以启用中断以实现事件驱动行为，或者同时使用两种模式。</p>
+    <p>GPIO <b>输入</b> 节点，用于兼容多种设备（当前主要支持 <b>Orange Pi Zero 2W</b>）。</p>
+    <p>请先从“设备型号”下拉列表中选择您的设备。根据所选设备，下方会显示引脚布局图和可用的 GPIO 引脚列表。</p>
+    <p>选择要读取的 GPIO 引脚，或选择“-- 自定义/环境变量 --”来手动输入引脚号、环境变量名 (例如 <code>MY_PIN_VAR</code>) 或其他支持的类型。</p>
+    <p>如果使用环境变量，请在子流程属性或 Node-RED 运行环境中定义它。</p>
+    <p>用户有责任确保所选或输入的引脚号有效且不会干扰其他系统功能。</p>
+    <p>可以通过向节点发送任何消息来轮询引脚当前状态。</p>
+    <p><b>中断:</b> 您可以选择启用中断以在引脚状态改变时自动发送消息。选择触发边沿（上升沿、下降沿或双边沿）并可选择设置去抖时间（毫秒）以忽略快速的噪声信号。</p>
     <p><b>输出消息:</b><br>
-        <code>msg.topic</code>: 包含 GPIO 编号 (例如, "264").<br>
-        <code>msg.payload</code>: 包含引脚状态 (0 或 1).<br>
-        <code>msg.interrupt</code>: 如果消息由中断触发，则设置为 <code>true</code>，否则为 <code>false</code>
-        (如果通过轮询获取，则可能不存在此属性)。</p>
+        <code>msg.payload</code>: 包含引脚当前状态 (0 或 1)。<br>
+        <code>msg.topic</code>: (可选) 可能包含引脚号或节点名称。<br>
+    </p>
+    <p><b>注意:</b> 并非所有引脚都支持中断。请参考您的设备文档。</p>
 </script>
 
 <script type="text/javascript">
     RED.nodes.registerType('opi_in', {
-        category: 'Orange Pi',
-        color: '#FFCC66',
+        category: 'Orange Pi', // Or your desired category
+        color: '#FFCC66',      // Orange-ish color
         defaults: {
             name: {value: ""},
-            select: {value: "opz2w"}, // 重新添加 select 属性，默认 opz2w
-            pin: {value: "", required: true},
-            enableInterrupt: {value: false},
-            edge: {value: "rising"},
-            debounce: {value: "0"}
+            select: {value: "opz2w"},           // Default device
+            pin: {value: "", required: true},  // Stores final pin value (number or string/var name)
+            pinSource: {value: "list"},        // Source: 'list' or 'custom'
+            pinType: {value: "num"},           // Type when pinSource is 'custom' ('num', 'str', 'env'...)
+            enableInterrupt: {value: false},   // Enable interrupt?
+            edge: {value: "rising"},           // Interrupt edge ('rising', 'falling', 'both')
+            debounce: {value: "0", validate: RED.validators.number()} // Debounce time (ms), validate as number
         },
-        icon: "in.png",
-        paletteLabel: "GPIO IN", // 稍微修改标签
-        inputs: 1,
-        outputs: 1,
+        inputs: 1,  // Allow input messages for polling
+        outputs: 1, // Output pin state changes
+        icon: "in.png", // Provide an icon file or use "fa-microchip"
+        paletteLabel: "GPIO IN",
         label: function () {
-            return this.name || (this.pin ? `${this.select || '设备'} GPIO ${this.pin}` : "GPIO IN"); // 更新标签显示逻辑
+            // Generate a dynamic label for the node
+            let pinDisplay = this.pin;
+            if (this.pinSource === 'custom') {
+                switch (this.pinType) {
+                    case 'env': pinDisplay = '${' + this.pin + '}'; break;
+                    case 'flow': pinDisplay = '#' + this.pin; break;
+                    case 'global': pinDisplay = '#' + this.pin; break;
+                }
+            }
+            const deviceLabel = this.select === 'opz2w' ? 'OPIZ2W' : (this.select || '设备');
+            const intLabel = this.enableInterrupt ? ` (${this.edge})` : ""; // Add edge info if interrupt enabled
+            return this.name || (pinDisplay ? `${deviceLabel} GPIO ${pinDisplay}${intLabel}` : "GPIO IN");
         },
         oneditprepare: function () {
-            // --- 设备选择变化时，更新引脚UI ---
-            const updatePinSelectionUI = () => {
-                const selectedDevice = $("#node-input-select").val();
-                // 先隐藏所有特定设备的引脚选项
-                $("#opz2w-pin-options").hide();
-                // 根据选择显示对应的引脚选项
+            const node = this;
+
+            const resourcePath = "resources/@liball/node-red-contrib-opi-gpio";
+            // ---------------------------------------------------------------------
+
+            // Get jQuery elements
+            const $deviceSelect = $("#node-input-select");
+            const $imageContainer = $("#device-pinout-image-container");
+            const $imageElement = $("#device-pinout-image");
+            const $opz2wOptions = $("#opz2w-pin-options");
+            const $pinSelect = $("#node-input-pin-opz2w");
+            const $customPinRow = $("#custom-pin-input-row");
+            const $customPinInput = $("#node-input-pin-custom");
+            const $customPinType = $("#node-input-pinType-custom");
+            const $intEnableCheckbox = $("#node-input-enableInterrupt");
+            const $intEdgeRow = $("#node-set-edge");
+            const $intDebounceRow = $("#node-set-debounce");
+            const $intDebounceTip = $("#node-tip-debounce");
+
+            // Function to update UI based on selected device
+            const updateUIForDevice = () => {
+                const selectedDevice = $deviceSelect.val();
+
+                // Hide all device-specific options and image first
+                $opz2wOptions.hide();
+                $imageContainer.hide();
+                $imageElement.attr("src", "");
+
+                // --- Handle Orange Pi Zero 2W ---
                 if (selectedDevice === 'opz2w') {
-                    $("#opz2w-pin-options").show();
+                    // 1. Show OPiZ2W options container
+                    $opz2wOptions.show();
+
+                    // 2. Show Pinout Image
+                    const imageUrl = `${resourcePath}/gpio-zero2w.png`; // Assumes image is in node dir
+                    $imageElement.attr("src", imageUrl);
+                    $imageContainer.show();
+
+                    // 3. Handle Pin Input Mode (List vs Custom) based on saved state
+                    if (node.pinSource === 'custom') {
+                        $pinSelect.val('custom');
+                        $customPinRow.show();
+                        if (!$customPinInput.data('typedInput')) {
+                            $customPinInput.typedInput({
+                                default: node.pinType || 'num',
+                                types: ['num', 'str', 'env', 'flow', 'global'],
+                                typeField: $customPinType
+                            });
+                        }
+                        $customPinInput.typedInput('value', node.pin);
+                        $customPinInput.typedInput('type', node.pinType || 'num');
+                    } else {
+                        $pinSelect.val(node.pin);
+                        $customPinRow.hide();
+                    }
                 }
-                // else if (selectedDevice === 'other_device') { ... } // 为以后扩展预留
+                // --- Handle Other Devices ---
+                // else if (selectedDevice === 'other_device') { ... }
             };
 
-            // 设备选择下拉框的值改变时触发
-            $("#node-input-select").change(() => {
-                updatePinSelectionUI();
-                // 清空可能已选的引脚和名称，因为设备类型变了
-                // $("#node-input-pin-opz2w").val(''); // 如果希望切换设备时重置引脚可选此行
-                // $("#node-input-pin").val('');
-                // $("#node-input-name").val('');
-            });
-
-            // --- (保持不变) Orange Pi Zero 2W 引脚选择逻辑 ---
-            $("#node-input-pin-opz2w").change(function () {
-                const selectedOption = $(this).find('option:selected');
-                const gpioNumber = selectedOption.val();
-                const pinText = selectedOption.text();
-                $("#node-input-pin").val(gpioNumber); // 更新隐藏的 pin 值
-                $("#node-input-name").val(pinText);   // 自动填充名称
-            });
-
-            // --- (保持不变) 中断设置逻辑 ---
-            const setInterrupt = function () {
-                if ($('#node-input-enableInterrupt').is(":checked")) {
-                    $('#node-set-edge').show();
-                    $('#node-set-debounce').show();
-                    $('#node-tip-debounce').show();
+            // Function to show/hide interrupt settings
+            const setInterruptVisibility = function () {
+                if ($intEnableCheckbox.is(":checked")) {
+                    $intEdgeRow.show();
+                    $intDebounceRow.show();
+                    $intDebounceTip.show();
                 } else {
-                    $('#node-set-edge').hide();
-                    $('#node-set-debounce').hide();
-                    $('#node-tip-debounce').hide();
+                    $intEdgeRow.hide();
+                    $intDebounceRow.hide();
+                    $intDebounceTip.hide();
                 }
             };
-            $('#node-input-enableInterrupt').change(function () {
-                setInterrupt();
+
+            // --- Event Handlers ---
+
+            // 1. Device selection changes
+            $deviceSelect.change(() => {
+                updateUIForDevice();
             });
 
-            // --- 初始化 ---
-            // 确保设备选择下拉框反映保存的值 (如果 select 属性有值)
-            if (this.select) {
-                $('#node-input-select').val(this.select);
-            } else {
-                // 如果没有保存过 select 值，可以设一个默认，或者让禁用项显示
-                $('#node-input-select').val(''); // 设为空让禁用项显示
-            }
-            updatePinSelectionUI(); // 根据当前选中的设备初始化引脚UI的可见性
+            // 2. Pin dropdown selection changes
+            $pinSelect.change(function () {
+                const selectedValue = $(this).val();
+                if (selectedValue === 'custom') {
+                    $customPinRow.show();
+                    if (!$customPinInput.data('typedInput')) {
+                        $customPinInput.typedInput({
+                            default: 'num',
+                            types: ['num', 'str', 'env', 'flow', 'global'],
+                            typeField: $customPinType
+                        });
+                    }
+                } else {
+                    $customPinRow.hide();
+                    // Optionally update name based on selection
+                    // const selectedText = $(this).find('option:selected').text();
+                    // $("#node-input-name").val(selectedText);
+                }
+            });
 
-            // 确保引脚下拉框反映保存的 pin 值 (如果 pin 属性有值且对应设备被选中)
-            if (this.pin && $("#node-input-select").val() === 'opz2w') { // 检查设备是否匹配
-                $('#node-input-pin-opz2w').val(this.pin);
-            }
-            // 初始化中断设置的可见性
-            setInterrupt();
+            // 3. Interrupt checkbox changes
+            $intEnableCheckbox.change(setInterruptVisibility);
+
+
+            // --- Initialization on Dialog Open ---
+            // Set initial values from node properties
+            $deviceSelect.val(node.select || 'opz2w');
+            $intEnableCheckbox.prop('checked', node.enableInterrupt); // Set interrupt checkbox
+            $("#node-input-edge").val(node.edge || 'rising');       // Set edge dropdown
+            $("#node-input-debounce").val(node.debounce || '0');     // Set debounce input
+
+            // Update the device/pin/image UI based on loaded device and pin source
+            updateUIForDevice();
+
+            // Update visibility of interrupt settings
+            setInterruptVisibility();
+
         },
         oneditsave: function () {
-            // 保存时，确保 select 的值被正确获取 (虽然 Node-RED 通常会自动处理)
-            this.select = $("#node-input-select").val();
-            // 隐藏的 pin 值由其对应的 change handler 更新，这里通常无需额外处理
-            // 但为保险起见，如果 pin 对应的 div 是可见的，可以再取一次值
-            if ($("#opz2w-pin-options").is(":visible")) {
-                this.pin = $('#node-input-pin-opz2w').val();
-                $("#node-input-pin").val(this.pin); // 也更新隐藏输入框，以防万一
+            const node = this;
+            // Save device selection
+            node.select = $("#node-input-select").val();
+
+            // Determine pin source and save pin/pinType accordingly
+            const pinSelectionMode = $("#node-input-pin-opz2w").val(); // Check the dropdown
+
+            if (pinSelectionMode === 'custom') {
+                node.pinSource = 'custom';
+                node.pin = $("#node-input-pin-custom").typedInput('value');
+                node.pinType = $("#node-input-pin-custom").typedInput('type');
             } else {
-                // 如果对应设备的选项是隐藏的，可能需要清空 pin 值或进行其他处理
-                // this.pin = ""; // 取决于你的逻辑需求
+                node.pinSource = 'list';
+                node.pin = pinSelectionMode; // Get value directly from dropdown
+                node.pinType = 'num'; // Pins from list are always numbers
             }
+            // Note: enableInterrupt, edge, debounce defaults are automatically saved by Node-RED
         }
     });
 </script>
